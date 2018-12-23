@@ -13,4 +13,4 @@ The captchas folder contains a bunch of captchas that I saved, with a vague idea
 
 Comes with a GUI built with wxPython for your clicking convenience. No cmd-line interface.
 
-There is no license on this because as far as I'm concerned, take this code and run with it. Attribtion is nice but not required. My only request is that you use this ~~power~~ script for the furtherance of humanity's knowledge. 
+I added a license because I figure if people who know more about laws than I do say its a good idea, it's probably a good idea. That being said, take this code and run with it. Attribtion is nice but not required. My only request is that you use this ~~power~~ script for the furtherance of humanity's knowledge. 
