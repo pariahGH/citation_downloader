@@ -16,29 +16,16 @@ class PDFThread(Thread):
 		
 	def run(self):
 		with open(self.fileName,'r', encoding="utf8") as f:
-			data = f.read()
-			errorArray = []
-			for citation in data.split("\n\n"):
-				try:
-					util.getPDF(citation, self.logger, self.mailName)
-				except util.SciHubError as e:
-					errorArray.append(e.data)
+			data = f.read().split("\n\n")
+			errorArray, length = iterateCitations(data)
 			# retry!
 			self.logger.logToDisplay("Done! Checking retry list...\n")
-			length = len(errorArray)
 			retries = 0
 			while(length >0 and retries != 5):
 				self.logger.logToDisplay(str(length)+" retries found! Waiting 30 minutes...\n")
 				time.sleep(1800)
-				temp = errorArray
-				errorArray = []
-				for citation in temp:
-					try:
-						util.getPDF(citation, self.logger, self.mailName)
-					except util.SciHubError as e:
-						errorArray.append(e.data)
+				errorArray, length = iterateCitations(errorArray)
 				retries += 1
-				length = len(errorArray)
 			if(retries == 5):
 				self.logger.logToDisplay("Max retries hit, writing leftovers to file!\n")
 				with open('./retries.txt','w', encoding="utf8") as retryDest:

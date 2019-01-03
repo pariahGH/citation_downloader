@@ -38,6 +38,15 @@ def getPDF(citationRaw, logger, mailName):
 	else:
 		logger.logToDisplay("Skipping blank citation entry\n")
 		
+def iterateCitations(data):
+	errorArray = []
+	for citation in data:
+		try:
+			util.getPDF(citation, self.logger, self.mailName)
+		except util.SciHubError as e:
+			errorArray.append(e.data)
+	return (errorArray, len(errorArray))
+		
 def getFromSciHub(data, logger):
 	try:
 		pdfUrl = ""
@@ -45,6 +54,7 @@ def getFromSciHub(data, logger):
 		
 		articlePage = BeautifulSoup(requests.get("https://sci-hub.tw/"+data["doi"]).text,'html5lib')
 		iframes = articlePage.find_all("iframe")
+		
 		if len(iframes) > 0:
 			pdfUrl = iframes[0]["src"]
 		else:
